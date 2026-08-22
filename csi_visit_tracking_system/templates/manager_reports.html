@@ -1,0 +1,53 @@
+{% extends "base_manager.html" %}
+{% block content %}
+<div class="section-title">Monthly Consumer Lists</div>
+<form method="get" style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;margin-bottom:20px;">
+  <div class="field" style="margin:0;">
+    <label>Month</label>
+    <select name="month" onchange="this.form.submit()">
+      {% for m in month_names %}
+        <option value="{{ loop.index0 }}" {{ 'selected' if loop.index0==month0 else '' }}>{{ m }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="field" style="margin:0;">
+    <label>Year</label>
+    <select name="year" onchange="this.form.submit()">
+      {% for y in years %}
+        <option value="{{ y }}" {{ 'selected' if y==year else '' }}>{{ y }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="field" style="margin:0;">
+    <label>Area</label>
+    <select name="area" onchange="this.form.submit()">
+      <option value="ALL" {{ 'selected' if area=='ALL' else '' }}>All Areas</option>
+      <option value="SOUTHERS" {{ 'selected' if area=='SOUTHERS' else '' }}>Southers Area</option>
+      <option value="SOUTHEAST" {{ 'selected' if area=='SOUTHEAST' else '' }}>Southeast Area</option>
+      <option value="CENTRAL" {{ 'selected' if area=='CENTRAL' else '' }}>Central Area</option>
+    </select>
+  </div>
+  <a class="btn btn-outline" href="{{ url_for('manager_reports_export', year=year, month=month0, area=area, fmt='csv') }}">Export CSV</a>
+  <a class="btn btn-outline" href="{{ url_for('manager_reports_export', year=year, month=month0, area=area, fmt='pdf') }}">Export PDF</a>
+</form>
+
+{% for key, heading in [("sp","Support Plan Visit Due"), ("quarterly","Quarterly Visit Due"), ("monthly","Monthly Visit Due (GH/SL)")] %}
+<div class="section-title">{{ heading }} ({{ groups[key]|length }})</div>
+{% if groups[key]|length == 0 %}
+  <div class="empty-note">None due.</div>
+{% else %}
+<table class="data-table">
+  <tr><th>Consumer</th><th>Worker</th><th>Area</th><th>Status</th><th>Address</th></tr>
+  {% for c in groups[key] %}
+  <tr>
+    <td>{{ c.name }}</td>
+    <td>{{ c.worker_code }}</td>
+    <td>{{ area_label(c.area) }}</td>
+    <td>{{ 'Completed' if c.completion and c.completion.status=='completed' else 'Pending' }}</td>
+    <td>{{ c.address }}{% if c.city %}, {{ c.city }}{% endif %}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
+{% endfor %}
+{% endblock %}

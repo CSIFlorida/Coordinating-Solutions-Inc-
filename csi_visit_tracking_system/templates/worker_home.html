@@ -1,0 +1,26 @@
+{% extends "base_worker.html" %}
+{% block content %}
+<div class="section-title">Assigned Consumers &mdash; {{ month_label }}</div>
+<div class="summary-row">
+  <div class="summary-card"><div class="num">{{ total_count }}</div><div class="lbl">Due This Month</div></div>
+  <div class="summary-card"><div class="num">{{ done_count }}</div><div class="lbl">Completed</div></div>
+  <div class="summary-card"><div class="num">{{ total_count - done_count }}</div><div class="lbl">Pending</div></div>
+</div>
+
+{% if not items %}
+  <div class="empty-note">No visits due this month. Nice work staying on top of it!</div>
+{% endif %}
+
+{% for c in items %}
+<a class="consumer-card" href="{{ url_for('consumer_detail', consumer_id=c.id) }}">
+  <div class="avatar">{{ c.name[0] if c.name else '?' }}</div>
+  <div class="body">
+    <div class="name">{{ c.name }}</div>
+    <div class="meta">{{ c.address }}{% if c.city %}, {{ c.city }}{% endif %}</div>
+    <span class="pill {{ 'pill-done' if c.is_done else 'pill-pending' }}">{{ 'Visited' if c.is_done else 'Pending' }} &middot; {{ c.visit_type_label }}</span>
+    <span class="pill pill-area">{{ area_label(c.area) }}</span>
+  </div>
+  <div class="chevron">&#8250;</div>
+</a>
+{% endfor %}
+{% endblock %}

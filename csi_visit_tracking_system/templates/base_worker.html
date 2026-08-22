@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>{% block title %}CSI Visit Tracking System{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="app-shell">
+  <div class="app-header">
+    <div class="logo-badge-sm">CSI</div>
+    <div>
+      <div class="title">{{ session.get('display_name', 'Worker') }}</div>
+      <div class="subtitle">Worker Code: {{ session.get('worker_code', '—') }}</div>
+    </div>
+    <div class="spacer"></div>
+    <a class="icon-btn" href="{{ url_for('logout') }}">Log out</a>
+  </div>
+  {% include "_flash.html" %}
+  <div class="content">
+    {% block content %}{% endblock %}
+  </div>
+  <div class="bottom-nav">
+    <a href="{{ url_for('worker_home') }}" class="{{ 'active' if active_tab=='home' else '' }}"><span class="icon">&#127968;</span>Home</a>
+    <a href="{{ url_for('worker_visits') }}" class="{{ 'active' if active_tab=='visits' else '' }}"><span class="icon">&#128203;</span>Visits</a>
+    <a href="{{ url_for('worker_profile') }}" class="{{ 'active' if active_tab=='profile' else '' }}"><span class="icon">&#128100;</span>Profile</a>
+  </div>
+</div>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{% extends "base_auth.html" %}
+{% block content %}
+<div class="celebrate-screen" id="confettiWrap">
+  <div class="celebrate-emoji">&#127881;</div>
+  <h1>Congrats on your completed duty!!!<br>YOU ARE POWERFUL!!!!</h1>
+  <p>{{ consumer.name }}'s visit has been logged.</p>
+  <a class="btn btn-lg" style="background:white;color:#16a34a;" href="{{ url_for('worker_home') }}">Continue</a>
+</div>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+<script>launchConfetti('confettiWrap', 70);</script>
+{% endblock %}

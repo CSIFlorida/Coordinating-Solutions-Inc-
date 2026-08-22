@@ -1,0 +1,23 @@
+{% extends "base_auth.html" %}
+{% block content %}
+<div class="form-wrap">
+  <div class="logo-badge-sm" style="margin-bottom:16px;">CSI</div>
+  <h1>Set up your Manager account</h1>
+  <div class="sub">This is a one-time setup for the first person running the app. Everyone else logs in or signs up as a worker.</div>
+  <form method="post">
+    <div class="field">
+      <label for="display_name">Your name</label>
+      <input type="text" id="display_name" name="display_name" placeholder="e.g. Carlos Rocha" required autofocus>
+    </div>
+    <div class="field">
+      <label for="phone">Phone number</label>
+      <input type="tel" id="phone" name="phone" placeholder="(305) 555-0100" required>
+    </div>
+    <div class="field">
+      <label for="password">Create a password</label>
+      <input type="password" id="password" name="password" minlength="6" required>
+    </div>
+    <button type="submit" class="btn btn-primary btn-block btn-lg">Create Manager Account</button>
+  </form>
+</div>
+{% endblock %}

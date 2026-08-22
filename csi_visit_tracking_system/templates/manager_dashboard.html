@@ -1,0 +1,31 @@
+{% extends "base_manager.html" %}
+{% block content %}
+<div class="section-title">Overview &mdash; {{ month_label }}</div>
+<div class="summary-row">
+  <div class="summary-card"><div class="num">{{ total_consumers }}</div><div class="lbl">Active Consumers</div></div>
+  <div class="summary-card"><div class="num">{{ total_workers }}</div><div class="lbl">Workers</div></div>
+  <div class="summary-card"><div class="num">{{ due_total }}</div><div class="lbl">Visits Due</div></div>
+  <div class="summary-card"><div class="num">{{ ((done_total / due_total * 100) | round(0) | int) if due_total else 0 }}%</div><div class="lbl">Completed</div></div>
+</div>
+
+<div class="section-title">By Area</div>
+<table class="data-table">
+  <tr><th>Area</th><th>Due</th><th>Completed</th><th>% Complete</th></tr>
+  {% for area, s in area_stats.items() %}
+  <tr>
+    <td>{{ area_label(area) }}</td>
+    <td>{{ s.due }}</td>
+    <td>{{ s.done }}</td>
+    <td>{{ ((s.done / s.due * 100) | round(0) | int) if s.due else 0 }}%</td>
+  </tr>
+  {% endfor %}
+</table>
+
+<div class="section-title" style="margin-top:24px;">Data</div>
+{% if last_upload %}
+<p style="font-size:13px;color:var(--gray-sub);">Last upload: <strong>{{ last_upload.filename }}</strong> on {{ last_upload.uploaded_at[:10] }} ({{ last_upload.row_count }} rows)</p>
+{% else %}
+<p style="font-size:13px;color:var(--gray-sub);">No data uploaded yet.</p>
+{% endif %}
+<a class="btn btn-primary" href="{{ url_for('manager_upload') }}">Go to Data Upload</a>
+{% endblock %}

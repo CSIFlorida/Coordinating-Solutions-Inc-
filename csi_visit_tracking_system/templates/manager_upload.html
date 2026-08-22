@@ -1,0 +1,31 @@
+{% extends "base_manager.html" %}
+{% block content %}
+<div class="section-title">Upload / Replace Master Data File</div>
+<form method="post" enctype="multipart/form-data">
+  <div class="upload-box">
+    <p style="margin-top:0;">Select the latest CSI/EMedi Stats working spreadsheet (.xlsx)</p>
+    <input type="file" name="file" accept=".xlsx,.xls" required>
+    <div style="margin-top:16px;">
+      <button type="submit" class="btn btn-primary">Upload &amp; Import</button>
+    </div>
+  </div>
+</form>
+<p style="font-size:12px;color:var(--gray-sub);margin-top:10px;">
+  Existing visit history and worker accounts are preserved — consumers are matched and updated by their iConnect Id.
+</p>
+
+<div class="section-title" style="margin-top:26px;">Version History</div>
+{% if not history %}
+  <div class="empty-note">No uploads yet.</div>
+{% endif %}
+<table class="data-table">
+  <tr><th>File</th><th>Uploaded</th><th>Rows</th></tr>
+  {% for h in history %}
+  <tr>
+    <td>{{ h.filename }}</td>
+    <td>{{ h.uploaded_at[:16].replace('T', ' ') }}</td>
+    <td>{{ h.row_count }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

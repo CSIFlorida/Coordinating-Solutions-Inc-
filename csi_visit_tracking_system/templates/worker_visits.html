@@ -1,0 +1,14 @@
+{% extends "base_worker.html" %}
+{% block content %}
+<div class="section-title">Your Visit History</div>
+{% if not rows %}
+  <div class="empty-note">You haven't logged any visits yet.</div>
+{% endif %}
+{% for h in rows %}
+<div class="history-item">
+  <div class="date">{{ h.consumer_name }} &mdash; {{ {"sp":"Support Plan","quarterly":"Quarterly","monthly":"Monthly"}[h.visit_type] }} &middot; {{ h.due_month }}/{{ h.due_year }}</div>
+  {% if h.note %}<div class="note">{{ h.note }}</div>{% endif %}
+  <div class="by">Completed {{ h.completed_date or '' }}</div>
+</div>
+{% endfor %}
+{% endblock %}

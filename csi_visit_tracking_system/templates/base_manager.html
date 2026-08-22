@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}CSI Visit Tracking System — Manager{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="app-shell wide">
+  <div class="app-header">
+    <div class="logo-badge-sm">CSI</div>
+    <div>
+      <div class="title">CSI Visit Tracking System</div>
+      <div class="subtitle">Manager &middot; {{ session.get('display_name','') }}</div>
+    </div>
+    <div class="spacer"></div>
+    <a class="icon-btn" href="{{ url_for('logout') }}">Log out</a>
+  </div>
+  <div class="top-nav">
+    <a href="{{ url_for('manager_dashboard') }}" class="{{ 'active' if active_tab=='dashboard' else '' }}">Dashboard</a>
+    <a href="{{ url_for('manager_upload') }}" class="{{ 'active' if active_tab=='upload' else '' }}">Data Upload</a>
+    <a href="{{ url_for('manager_reports') }}" class="{{ 'active' if active_tab=='reports' else '' }}">Reports</a>
+    <a href="{{ url_for('manager_workers') }}" class="{{ 'active' if active_tab=='workers' else '' }}">Workers</a>
+  </div>
+  {% include "_flash.html" %}
+  <div class="mgr-wrap">
+    {% block content %}{% endblock %}
+  </div>
+</div>
+</body>
+</html>

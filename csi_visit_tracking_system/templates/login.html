@@ -1,0 +1,20 @@
+{% extends "base_auth.html" %}
+{% block content %}
+<div class="form-wrap">
+  <div class="logo-badge-sm" style="margin-bottom:16px;">CSI</div>
+  <h1>Welcome back</h1>
+  <div class="sub">Log in to CSI Visit Tracking System</div>
+  <form method="post">
+    <div class="field">
+      <label for="phone">Phone number</label>
+      <input type="tel" id="phone" name="phone" placeholder="(305) 555-0100" required autofocus>
+    </div>
+    <div class="field">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required>
+    </div>
+    <button type="submit" class="btn btn-primary btn-block btn-lg">Log In</button>
+  </form>
+  <div class="link-row">New worker? <a href="{{ url_for('signup') }}">Create your account</a></div>
+</div>
+{% endblock %}

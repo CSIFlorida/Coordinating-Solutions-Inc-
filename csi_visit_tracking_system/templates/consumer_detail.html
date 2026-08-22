@@ -1,0 +1,45 @@
+{% extends "base_worker.html" %}
+{% block content %}
+<div class="detail-header" style="margin:-16px -16px 16px;">
+  <div class="name">{{ consumer.name }}</div>
+  <div class="meta">
+    {{ consumer.address }}{% if consumer.city %}, {{ consumer.city }}{% endif %}{% if consumer.zip %} {{ consumer.zip }}{% endif %}<br>
+    {% if consumer.phone %}Phone: {{ consumer.phone }}<br>{% endif %}
+    Area: {{ area_label(consumer.area) }} &middot; Visit type due: {{ visit_type_label[primary_type] }}
+  </div>
+</div>
+
+<form method="post" action="{{ url_for('submit_visit', consumer_id=consumer.id) }}" id="visitForm">
+  <input type="hidden" name="visit_type" value="{{ primary_type }}">
+  <input type="hidden" name="due_year" value="{{ year }}">
+  <input type="hidden" name="due_month" value="{{ month0 + 1 }}">
+  <input type="hidden" name="completed_date" id="completedDateField">
+
+  <div class="section-title">Dictate Visit Note</div>
+  <div class="mic-wrap">
+    <button type="button" class="mic-btn" id="micBtn">&#127908;</button>
+    <div class="mic-hint" id="micHint">Tap the mic to dictate your visit note.</div>
+    <textarea class="transcript-box" id="transcriptBox" name="note" placeholder="Your visit note will appear here — or just type it directly."></textarea>
+  </div>
+
+  <button type="submit" class="btn btn-success btn-block btn-lg" onclick="document.getElementById('completedDateField').value = new Date().toISOString().slice(0,10);">
+    &#9989; Submit Visit Update
+  </button>
+</form>
+
+<div class="section-title" style="margin-top:26px;">Visit History</div>
+{% if not history %}
+  <div class="empty-note">No past visits recorded yet.</div>
+{% endif %}
+{% for h in history %}
+<div class="history-item">
+  <div class="date">{{ h.completed_date or (h.due_month|string + '/' + h.due_year|string) }} &mdash; {{ {"sp":"Support Plan","quarterly":"Quarterly","monthly":"Monthly"}[h.visit_type] }} &middot; {{ h.status|capitalize }}</div>
+  {% if h.note %}<div class="note">{{ h.note }}</div>{% endif %}
+  {% if h.submitted_by_name %}<div class="by">Logged by {{ h.submitted_by_name }}</div>{% endif %}
+</div>
+{% endfor %}
+
+<script>
+  initDictation('micBtn', 'transcriptBox', 'micHint');
+</script>
+{% endblock %}

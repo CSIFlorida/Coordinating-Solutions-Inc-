@@ -1,0 +1,37 @@
+{% extends "base_auth.html" %}
+{% block content %}
+<div class="form-wrap">
+  <div class="logo-badge-sm" style="margin-bottom:16px;">CSI</div>
+  <h1>Create your worker account</h1>
+  <div class="sub">Pick your worker code from the list your manager gave you.</div>
+  {% if not codes %}
+    <div class="flash flash-error">All worker codes already have an account. Ask your manager to add a new one, or check with them if you think this is a mistake.</div>
+  {% else %}
+  <form method="post">
+    <div class="field">
+      <label for="worker_code">Your worker code</label>
+      <select id="worker_code" name="worker_code" required>
+        <option value="">Select your code…</option>
+        {% for c in codes %}
+        <option value="{{ c }}">{{ c }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="field">
+      <label for="display_name">Your name</label>
+      <input type="text" id="display_name" name="display_name" required>
+    </div>
+    <div class="field">
+      <label for="phone">Phone number</label>
+      <input type="tel" id="phone" name="phone" placeholder="(305) 555-0100" required>
+    </div>
+    <div class="field">
+      <label for="password">Create a password</label>
+      <input type="password" id="password" name="password" minlength="6" required>
+    </div>
+    <button type="submit" class="btn btn-primary btn-block btn-lg">Create Account</button>
+  </form>
+  {% endif %}
+  <div class="link-row">Already have an account? <a href="{{ url_for('login') }}">Log in</a></div>
+</div>
+{% endblock %}

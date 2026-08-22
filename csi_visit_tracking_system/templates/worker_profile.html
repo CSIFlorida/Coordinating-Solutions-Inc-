@@ -1,0 +1,12 @@
+{% extends "base_worker.html" %}
+{% block content %}
+<div class="section-title">Profile</div>
+<div class="consumer-card" style="cursor:default;">
+  <div class="avatar">{{ session.get('display_name','?')[0] }}</div>
+  <div class="body">
+    <div class="name">{{ session.get('display_name') }}</div>
+    <div class="meta">Worker Code: {{ session.get('worker_code') }}</div>
+  </div>
+</div>
+<a class="btn btn-outline btn-block" style="margin-top:20px;" href="{{ url_for('logout') }}">Log Out</a>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base_manager.html" %}
+{% block content %}
+<div class="section-title">Workers Overview &mdash; {{ month_label }}</div>
+<table class="data-table">
+  <tr><th>Worker Code</th><th>Account</th><th>Assigned</th><th>Due This Month</th><th>Completed</th><th>% Complete</th></tr>
+  {% for r in rows %}
+  <tr>
+    <td>{{ r.worker_code }}</td>
+    <td>{{ r.display_name if r.has_account else 'No account yet' }}</td>
+    <td>{{ r.assigned }}</td>
+    <td>{{ r.due }}</td>
+    <td>{{ r.done }}</td>
+    <td>{{ ((r.done / r.due * 100) | round(0) | int) if r.due else 0 }}%</td>
+  </tr>
+  {% endfor %}
+</table>
+<p style="font-size:12px;color:var(--gray-sub);margin-top:14px;">
+  Workers create their own login from the Sign Up screen by picking their worker code &mdash; there's no separate invite step yet.
+</p>
+{% endblock %}

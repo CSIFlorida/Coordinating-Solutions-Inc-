@@ -1,0 +1,13 @@
+{% extends "base_auth.html" %}
+{% block content %}
+<div class="splash">
+  <div class="logo-badge">CSI</div>
+  <h1>CSI Visit Tracking System</h1>
+  <p>Empowering Every Visit.</p>
+  {% if first_run %}
+    <a class="btn btn-lg" href="{{ url_for('setup') }}">Set Up Manager Account</a>
+  {% else %}
+    <a class="btn btn-lg" href="{{ url_for('login') }}">Continue</a>
+  {% endif %}
+</div>
+{% endblock %}
